@@ -62,6 +62,7 @@
 						("ls" . "ls --color=auto")
 						("vim" . "nvim")
 					))
+					(bash-profile (list (local-file ".bash_profile" "bash_profile")))
 					(bashrc (list (local-file ".bashrc" "bashrc")))
 					(bash-logout (list (local-file ".bash_logout" "bash_logout")))
 				)
