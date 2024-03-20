@@ -81,7 +81,7 @@
 						(".config/nvim" ,(local-file ".config/nvim" "config-nvim" #:recursive? #t))
 					)
 					;; leaf links for autostart
-					(file-leaves ".config/autostart" "config-autostart")
+					;;(file-leaves ".config/autostart" "config-autostart")
 				)
 			)
 		)
