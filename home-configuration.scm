@@ -3,18 +3,27 @@
 ;; specifies package names.  To reproduce the exact same profile, you also
 ;; need to capture the channels being used, as returned by "guix describe".
 ;; See the "Replicating Guix" section in the manual.
+(add-to-load-path (dirname (current-filename)))
+
+
 (use-modules
 	(ice-9 ftw)
 	(gnu home)
 	(gnu packages)
 	(gnu services)
+	(guix channels)
 	(guix gexp)
 	(guix utils)
 	(gnu home services)
+	(gnu home services guix)
 	(gnu home services shells)
 	(gnu home services shepherd)
+	(gnu packages rust-apps)
 	(gnu packages suckless)
+	(gnu packages vim)
+	(gnu packages vpn)
 	(gnu packages xdisorg)
+	(guile-lsp-server)
 )
 
 (define (debug x)
@@ -47,10 +56,12 @@
 (home-environment
 	;; Below is the list of packages that will show up in your
 	;; Home profile, under ~/.guix-home/profile.
-	(packages (specifications->packages '(
-		"neovim"
-		"ripgrep"
-	)))
+	(packages (list
+		neovim
+		ripgrep
+		openconnect
+		guile-lsp-server
+	))
 
 	;; Below is the list of Home services.  To search for available
 	;; services, run 'guix home search KEYWORD' in a terminal.
