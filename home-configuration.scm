@@ -83,6 +83,7 @@
 				'(
 					("EDITOR" . "nvim")
 					("VISUAL" . "nvim")
+					("PATH" . "$HOME/.local/bin${PATH:+:${PATH}}")
 				)
 			)
 			(simple-service 'config-files-service
@@ -90,9 +91,10 @@
 				(append
 					;; regular links
 					`(
-						(".config/nvim" ,(local-file ".config/nvim" "config-nvim" #:recursive? #t))
+						;;(".config/nvim" ,(local-file ".config/nvim" "config-nvim" #:recursive? #t))
 					)
 					;; leaf links for autostart
+					(file-leaves ".config/nvim" "config-nvim")
 					;;(file-leaves ".config/autostart" "config-autostart")
 				)
 			)
