@@ -91,6 +91,7 @@
 				(append
 					;; regular links
 					`(
+						(".editorconfig" ,(local-file ".editorconfig" "editorconfig"))
 						;;(".config/nvim" ,(local-file ".config/nvim" "config-nvim" #:recursive? #t))
 					)
 					;; leaf links for autostart
