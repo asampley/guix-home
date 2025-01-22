@@ -18,7 +18,6 @@
 	(gnu home services guix)
 	(gnu home services shells)
 	(gnu home services shepherd)
-	(guile-lsp-server)
 )
 
 (define (debug x)

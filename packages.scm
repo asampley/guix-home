@@ -1,16 +1,17 @@
 (use-modules
 	(gnu packages rust-apps)
-	;;(gnu packages suckless)
 	(gnu packages vim)
-	;;(gnu packages vpn)
+	(guile-lsp-server)
 )
 
 ;; Below is the list of packages that will show up in your
 ;; Home profile, under ~/.guix-home/profile.
 
-(list
-	neovim
-	;; openconnect
-	ripgrep
-	guile-lsp-server
+(append
+	(list
+		neovim
+		ripgrep
+		guile-lsp-server
+	)
+	(if (search-path (list ".") "packages.local.scm") (load "packages.local.scm") (list))
 )

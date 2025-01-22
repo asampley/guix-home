@@ -100,3 +100,6 @@ if [ -n "$GUIX_ENVIRONMENT" ]; then
         PS1="${BASH_REMATCH[1]} [env]\\\$ "
     fi
 fi
+
+# Allow per computer configuration when using guix
+if [ -f ~/.bashrc.local ]; then source ~/.bashrc.local; fi
