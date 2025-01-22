@@ -18,11 +18,6 @@
 	(gnu home services guix)
 	(gnu home services shells)
 	(gnu home services shepherd)
-	(gnu packages rust-apps)
-	(gnu packages suckless)
-	(gnu packages vim)
-	(gnu packages vpn)
-	(gnu packages xdisorg)
 	(guile-lsp-server)
 )
 
@@ -37,31 +32,36 @@
 		(abs-dir (string-append (current-source-directory) "/" rel-dir))
 		(store (local-file abs-dir name #:recursive? #t))
 		(enter? (lambda (path stat result) (not (member (basename path) '(".git")))))
+		;;(enter? (lambda (path stat result) #f))
 		(leaf (lambda (path stat result)
-			(let* (
-				(out-path (substring path (+ 1 (string-length (current-source-directory)))))
-				(store-path (substring out-path (+ 1 (string-length rel-dir))))
-			) (cons
-				(list out-path (file-append store "/" store-path))
+			(if (not (enter? path stat result)) ;; skip directories turned leaf because we didn't enter them
 				result
-			))
+				(let* (
+					(out-path (substring path (+ 1 (string-length (current-source-directory)))))
+					(store-path (substring out-path (+ 1 (string-length rel-dir))))
+				) (cons
+					(list out-path (file-append store "/" store-path))
+					result
+				))
+			)
 		))
 		(down (lambda (path stat result) result))
 		(up (lambda (path stat result) result))
-		(skip (lambda (path stat result) (raise-exception (list path stat result))))
-		(error (lambda (path stat errno result) (raise-exception (list path stat errno result))))
+		(skip (lambda (path stat result) (display (format #f "skipping ~:s~%" path))))
+		(error (lambda (path stat errno result)
+			(if (= errno 2)
+				(display (format #f "warning: path does not exist path:~:s, stat:~:s, errno:~:s~%" path stat errno))
+				(raise-exception (format #f "error: couldn't read path:~:s, stat:~:s, errno:~:s~%" path stat errno))
+			)
+			result
+		))
 	) (file-system-fold enter? leaf down up skip error '() abs-dir))
 )
 
 (home-environment
 	;; Below is the list of packages that will show up in your
 	;; Home profile, under ~/.guix-home/profile.
-	(packages (list
-		neovim
-		ripgrep
-		openconnect
-		guile-lsp-server
-	))
+	(packages (load "packages.scm"))
 
 	;; Below is the list of Home services.  To search for available
 	;; services, run 'guix home search KEYWORD' in a terminal.
@@ -92,11 +92,10 @@
 					;; regular links
 					`(
 						(".editorconfig" ,(local-file ".editorconfig" "editorconfig"))
-						;;(".config/nvim" ,(local-file ".config/nvim" "config-nvim" #:recursive? #t))
 					)
-					;; leaf links for autostart
+					;; leaf links allow files to be added, if they don't conflict
 					(file-leaves ".config/nvim" "config-nvim")
-					;;(file-leaves ".config/autostart" "config-autostart")
+					(file-leaves ".config/autostart" "config-autostart")
 				)
 			)
 		)
