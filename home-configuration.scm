@@ -5,7 +5,6 @@
 ;; See the "Replicating Guix" section in the manual.
 (add-to-load-path (dirname (current-filename)))
 
-
 (use-modules
 	(ice-9 ftw)
 	(gnu home)

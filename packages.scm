@@ -1,4 +1,5 @@
 (use-modules
+	(gnu packages base)
 	(gnu packages rust-apps)
 	(gnu packages vim)
 	(guile-lsp-server)
@@ -11,7 +12,8 @@
 	(list
 		neovim
 		ripgrep
+		glibc-locales
 		guile-lsp-server
 	)
-	(if (search-path (list ".") "packages.local.scm") (load "packages.local.scm") (list))
+	(if (%search-load-path "packages.local.scm") (load-from-path "packages.local.scm") (list))
 )
