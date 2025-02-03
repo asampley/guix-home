@@ -17,6 +17,7 @@
 	(gnu home services guix)
 	(gnu home services shells)
 	(gnu home services shepherd)
+	(gnu home services ssh)
 )
 
 (define (debug x)
@@ -94,6 +95,11 @@
 					;; leaf links allow files to be added, if they don't conflict
 					(file-leaves ".config/nvim" "config-nvim")
 					(file-leaves ".config/autostart" "config-autostart")
+				)
+			)
+			(service home-ssh-agent-service-type
+				(home-ssh-agent-configuration
+					(extra-options (list "-t" "15m"))
 				)
 			)
 		)

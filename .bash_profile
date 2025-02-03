@@ -8,6 +8,3 @@ if [ -f ~/.bashrc ]; then source ~/.bashrc; fi
 
 # Allow per computer configuration when using guix
 if [ -f ~/.bash_profile.local ]; then source ~/.bash_profile.local; fi
-
-# Startup ssh-agent if it exists
-if command -v ssh-agent; then eval $(ssh-agent -t 5m); fi
