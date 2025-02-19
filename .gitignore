@@ -1,1 +1,2 @@
-packages.local.scm
+**/local.scm
+**/*.local.scm
