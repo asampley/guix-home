@@ -1,3 +1,3 @@
 [submodule ".config/nvim"]
-	path = .config/nvim
+	path = files/.config/nvim
 	url = https://github.com/asampley/nvim-config.git

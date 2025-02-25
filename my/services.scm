@@ -103,8 +103,8 @@
 	config-service
 ))
 
-(define local-path "my/services.local.scm")
+(define local-path (string-append (dirname (current-filename)) "/services.local.scm"))
 
 (define-public local-services
-	(if (%search-load-path local-path) (load-from-path local-path) (list))
+	(if (file-exists? local-path) (load local-path) (list))
 )

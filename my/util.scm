@@ -10,11 +10,11 @@
 	x
 )
 
-(define root (dirname (current-source-directory)))
+(define file-base (string-append (dirname (current-source-directory)) "/files"))
 
 (define-public (home-file-leaves rel-dir name)
 	(let* (
-		(abs-dir (string-append root "/" rel-dir))
+		(abs-dir (string-append file-base "/" rel-dir))
 		(store (local-file abs-dir name #:recursive? #t))
 		(enter? (lambda (path stat result) (not (member (basename path) '(".git")))))
 		;;(enter? (lambda (path stat result) #f))
@@ -22,7 +22,7 @@
 			(if (not (enter? path stat result)) ;; skip directories turned leaf because we didn't enter them
 				result
 				(let* (
-					(out-path (substring path (+ 1 (string-length root))))
+					(out-path (substring path (+ 1 (string-length file-base))))
 					(store-path (substring out-path (+ 1 (string-length rel-dir))))
 				) (cons
 					(list out-path (file-append store "/" store-path))
@@ -44,5 +44,5 @@
 )
 
 (define-public (home-file path store-name)
-	(local-file (string-append root "/" path) store-name)
+	(local-file (string-append file-base "/" path) store-name)
 )

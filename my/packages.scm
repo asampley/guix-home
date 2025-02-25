@@ -7,14 +7,14 @@
 	#:use-module (gnu packages guile)
 	#:use-module (gnu packages rust-apps)
 	#:use-module (gnu packages vim)
-	#:use-module (guile-lsp-server)
 	#:use-module (guix utils)
+	#:use-module (my packages guile)
 )
+
+(define local-path (string-append (dirname (current-filename)) "/packages.local.scm"))
 
 ;; Below is the list of packages that will show up in your
 ;; Home profile, under ~/.guix-home/profile.
-
-(define local-path "my/packages.local.scm")
 
 (define-public base-packages
 	(list
@@ -28,5 +28,5 @@
 )
 
 (define-public local-packages
-	(if (%search-load-path local-path) (load-from-path local-path) (list))
+	(if (file-exists? local-path) (load local-path) (list))
 )

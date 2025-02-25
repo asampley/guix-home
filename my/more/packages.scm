@@ -6,6 +6,8 @@
 
 (define-public more-packages (list))
 
+(define local-path (string-append (dirname (current-filename)) "/packages.local.scm"))
+
 (define-public more-local-packages
-	(if (%search-load-path "my/more/packages.local.scm") (load-from-path "my/more/packages.local.scm") (list))
+	(if (file-exists? local-path) (load local-path) (list))
 )
