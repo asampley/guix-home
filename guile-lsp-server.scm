@@ -50,16 +50,16 @@
      (synopsis "An implementation of the JSON-RPC for Guile.")
      (description "@code{scheme-json-rpc} allows calling procedures
 on remote servers by exchanging JSON objects.  It implements the
-@url{jsonrpc specifications, https://www.jsonrpc.org/specification}.
+@url{https://www.jsonrpc.org/specification, jsonrpc specifications}.
 The low-level API strives to be R7RS compliant, relying on some SRFI's
 when needed.")
      (home-page "https://codeberg.org/rgherdt/scheme-json-rpc")
      (license license:expat))))
 
 (define-public guile-lsp-server
-  (let ((version "0.4.4")
+  (let ((version "0.4.7")
         (revision "0")
-        (commit "7afb87e1180c66202b25d0204b9f4ee932523841"))
+        (commit "e1cba6548cd2eed1a1f6fa22af16811e1544335c"))
     (package
      (name "guile-lsp-server")
      (version (git-version version revision commit))
@@ -71,7 +71,7 @@ when needed.")
              (commit commit)))
        (sha256
         (base32
-         "1h1jgzkbjf5s9v65ksac6f788qzcfcnncpicalaxsyk2cy8s2dgm"))))
+         "1ybd9gs8wbxv6hfph7cs3hv02qf5qyqkdb0nw6fp02ksb6gyip2w"))))
      (build-system gnu-build-system)
      (arguments
       (list

@@ -4,6 +4,7 @@
 (define-module (my packages)
 	#:use-module (gnu packages base)
 	#:use-module (gnu packages crypto)
+	#:use-module (gnu packages guile)
 	#:use-module (gnu packages rust-apps)
 	#:use-module (gnu packages vim)
 	#:use-module (guile-lsp-server)
@@ -21,6 +22,8 @@
 		ripgrep
 		keychain
 		glibc-locales
+		guile-3.0
+		guile-lsp-server
 	)
 )
 
