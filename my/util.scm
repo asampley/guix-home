@@ -44,5 +44,6 @@
 )
 
 (define-public (home-file path store-name)
-	(local-file (string-append file-base "/" path) store-name)
+	;; set #:recursive? to true for both directories and to keep executable permissions
+	(local-file (string-append file-base "/" path) store-name #:recursive? #t)
 )

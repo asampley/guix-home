@@ -4,14 +4,17 @@
 (define-module (my packages)
 	#:use-module (gnu packages base)
 	#:use-module (gnu packages crypto)
+	#:use-module (gnu packages gnuzilla)
 	#:use-module (gnu packages guile)
 	#:use-module (gnu packages rust-apps)
+	#:use-module (gnu packages tor-browsers)
 	#:use-module (gnu packages vim)
+	#:use-module (gnu packages wm)
+	#:use-module (gnu packages xdisorg)
+	#:use-module (gnu packages xorg)
 	#:use-module (guix utils)
 	#:use-module (my packages guile)
 )
-
-(define local-path (string-append (dirname (current-filename)) "/packages.local.scm"))
 
 ;; Below is the list of packages that will show up in your
 ;; Home profile, under ~/.guix-home/profile.
@@ -24,9 +27,21 @@
 		glibc-locales
 		guile-3.0
 		guile-lsp-server
+		xterm
+	)
+)
+
+(define-public desktop-packages
+	(list
+		awesome
+		dex
+		icecat
+		torbrowser
 	)
 )
 
 (define-public local-packages
-	(if (file-exists? local-path) (load local-path) (list))
+	(let ((local-path (string-append (current-source-directory) "my/packages.local.scm")))
+		(if (file-exists? local-path) (load local-path) (list))
+	)
 )

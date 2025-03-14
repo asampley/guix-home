@@ -4,6 +4,7 @@
 	#:use-module (gnu home services guix)
 	#:use-module (gnu home services shells)
 	#:use-module (guix channels)
+	#:use-module (guix utils)
 	#:use-module (my util)
 )
 
@@ -82,17 +83,47 @@
 	)
 )
 
-(define-public config-service
-	(simple-service 'my-home-config-files-service
-		home-files-service-type
-		(append
-			;; regular links
-			`(
+(define-public my-awesome-service-type
+	(service-type
+		(name 'my-awesome)
+		(description "My home awesome service")
+		(extensions (list
+			(service-extension home-files-service-type (lambda (config) (append
+				`(
+					(".xsession" ,(home-file ".xsession" "xsession"))
+					(".xinitrc" ,(home-file ".xinitrc" "xinitrc"))
+				)
+				(home-file-leaves ".config/awesome" "config-awesome")
+			)))
+		))
+		(default-value (list))
+	)
+)
+
+(define-public my-config-service-type
+	(service-type
+		(name 'my-config)
+		(description "My home config files service")
+		(extensions (list
+			(service-extension home-files-service-type (lambda (config) `(
 				(".editorconfig" ,(home-file ".editorconfig" "editorconfig"))
-			)
-			;; leaf links allow files to be added, if they don't conflict
-			(home-file-leaves ".config/autostart" "config-autostart")
-		)
+			)))
+		))
+		(default-value (list))
+	)
+)
+
+(define-public my-autostart-config-service-type
+	(service-type
+		(name 'my-autostart)
+		(description "My home autostart service")
+		(extensions (list
+			(service-extension home-files-service-type (lambda (config)
+				;; leaf links allow files to be added, if they don't conflict
+				(home-file-leaves ".config/autostart" "config-autostart")
+			))
+		))
+		(default-value (list))
 	)
 )
 
@@ -100,11 +131,16 @@
 	channels-non-guix-service
 	(service my-nvim-service-type)
 	(service my-shell-service-type)
-	config-service
+	(service my-config-service-type)
 ))
 
-(define local-path (string-append (dirname (current-filename)) "/services.local.scm"))
+(define-public desktop-services (list
+	(service my-awesome-service-type)
+	(service my-autostart-config-service-type)
+))
 
 (define-public local-services
-	(if (file-exists? local-path) (load local-path) (list))
+	(let ((local-path (string-append (current-source-directory) "/my/services.local.scm")))
+		(if (file-exists? local-path) (load local-path) (list))
+	)
 )
