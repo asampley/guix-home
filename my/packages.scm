@@ -27,7 +27,6 @@
 		glibc-locales
 		guile-3.0
 		guile-lsp-server
-		xterm
 	)
 )
 
